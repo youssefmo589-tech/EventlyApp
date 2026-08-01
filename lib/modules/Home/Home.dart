@@ -1,5 +1,6 @@
 import 'package:eventlyapp/category%20data%20source/CategoryDataSource.dart';
 import 'package:eventlyapp/core/utiles/firebasecloudservice.dart';
+import 'package:eventlyapp/modules/AddEvent/EventDetails.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -164,7 +165,15 @@ class _HomeState extends State<Home> {
                     physics: NeverScrollableScrollPhysics(),
                     itemCount: eventdatalist.length,
                     itemBuilder: (context, index) {
-                      return EventCardItem(event: eventdatalist[index]);
+                      return GestureDetector(
+                          onTap: () {
+                            // Navigator.pushNamed(context, AppRouteName.EventDetails , arguments: eventdatalist[index] ) ;
+                            Navigator.push(context, MaterialPageRoute(
+                                builder: (context) => EventDetails(),
+                                settings: RouteSettings(
+                                    arguments: eventdatalist[index])));
+                          },
+                          child: EventCardItem(event: eventdatalist[index]));
                     },
                     separatorBuilder: (context, index) {
                       return SizedBox(height: 16);

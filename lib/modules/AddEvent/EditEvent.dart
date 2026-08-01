@@ -13,15 +13,17 @@ import '../../core/utilities/Widgets/Field.dart';
 import '../../core/utilities/Widgets/SelectionDateTime.dart';
 import '../Home/TabBarItem.dart';
 
-class AddEvent extends StatefulWidget {
-  const AddEvent({super.key});
+class EditEvent extends StatefulWidget {
+  final EventData event;
 
-  State<AddEvent> createState() {
-    return _AddEventState();
+  const EditEvent({super.key, required this.event});
+
+  State<EditEvent> createState() {
+    return _EditeventState();
   }
 }
 
-class _AddEventState extends State<AddEvent> {
+class _EditeventState extends State<EditEvent> {
   final titlecontroller = TextEditingController();
 
   final descreptioncontroller = TextEditingController();
@@ -32,7 +34,16 @@ class _AddEventState extends State<AddEvent> {
 
   int _selectedindex = 0;
 
+  void initState() {
+    super.initState();
+    titlecontroller.text = widget.event.title;
+    descreptioncontroller.text = widget.event.descreption;
+    _selecteddatetime = widget.event.selecteddatetime;
+  }
+
   Widget build(BuildContext context) {
+    // final event =
+    // ModalRoute.of(context)?.settings.arguments as EventData ;
     final provider = Provider.of<settingProvider>(context);
     final theme = Theme.of(context).textTheme;
 
@@ -77,7 +88,7 @@ class _AddEventState extends State<AddEvent> {
           ),
         ),
         title: Text(
-          "Add Event",
+          "Edit event",
           style: theme.titleMedium?.copyWith(
             color: provider.isDark() ? AppColors.white : AppColors.black,
             fontSize: 18,
@@ -219,27 +230,26 @@ class _AddEventState extends State<AddEvent> {
             left: 16,
             right: 16,
             child: AppButton(
-              text: "Add event",
+              text: "Update event",
               ontap: () async {
+                widget.event.title = titlecontroller.text;
+                widget.event.descreption = descreptioncontroller.text;
+                widget.event.selecteddatetime = _selecteddatetime;
+                widget.event.categoryId =
+                    CategoryDataSource.Categories[_selectedindex].id;
                 if (_formkey.currentState!.validate()) {
                   if (_selecteddatetime != null) {
-                    final data = EventData(
-                      title: titlecontroller.text,
-                      categoryId:
-                          CategoryDataSource.Categories[_selectedindex].id,
-                      descreption: descreptioncontroller.text,
-                      selecteddatetime: _selecteddatetime,
+                    bool isupdated = await FirebaseCloudService.update(
+                      widget.event,
                     );
                     EasyLoading.show();
-                    final result = await FirebaseCloudService.createEvent(data);
-
-                    if (result == true) {
-                      EasyLoading.dismiss();
-                      AppSnackBar.success('Process Success');
+                    if (isupdated) {
                       Navigator.pop(context);
-                    } else {
+                      AppSnackBar.success("updated successed");
                       EasyLoading.dismiss();
-                      AppSnackBar.error('error in process');
+                    } else {
+                      AppSnackBar.error("updated failed");
+                      EasyLoading.dismiss();
                     }
                   }
                 }
