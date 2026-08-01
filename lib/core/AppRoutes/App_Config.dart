@@ -9,6 +9,8 @@ import 'package:eventlyapp/modules/onBoarding/onBoardingPage.dart';
 import 'package:eventlyapp/modules/splash/SplashScreen.dart';
 import 'package:flutter/material.dart';
 
+import '../../modules/AddEvent/EventDetails.dart';
+
 abstract class AppConfig {
   static Route<dynamic>? onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -32,6 +34,8 @@ abstract class AppConfig {
         return MaterialPageRoute(builder: (context) => Layout());
       case AppRouteName.AddEvent:
         return MaterialPageRoute(builder: (context) => AddEvent());
+      case AppRouteName.EventDetails:
+        return MaterialPageRoute(builder: (context) => EventDetails());
 
       default:
         return null;

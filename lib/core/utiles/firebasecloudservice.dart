@@ -110,11 +110,15 @@ class FirebaseCloudService {
     }
   }
 
-  static Future<void> update(EventData event) async {
-    final collectionRef = getcollectionref();
-    final docRef = collectionRef.doc(event.eventid);
-
-    return await docRef.update(event.tofirebase());
+  static Future<bool> update(EventData event) async {
+    try {
+      final collectionRef = getcollectionref();
+      final docRef = collectionRef.doc(event.eventid);
+      await docRef.update(event.tofirebase());
+      return Future.value(true);
+    } catch (error) {
+      return Future.value(false);
+    }
   }
 
   static Future<List<EventData>> getevent() async {
@@ -127,10 +131,14 @@ class FirebaseCloudService {
     return eventdatalist;
   }
 
-  static void deleteevent(String eventID) {
-    final collectionRef = getcollectionref();
-
-    collectionRef.doc(eventID).delete();
+  static Future<bool> deleteevent(String eventID) async {
+    try {
+      final collectionRef = getcollectionref();
+      await collectionRef.doc(eventID).delete();
+      return Future.value(true);
+    } catch (error) {
+      return Future.value(false);
+    }
   }
 
   static Stream<QuerySnapshot<EventData>> getRealtimeEventData(

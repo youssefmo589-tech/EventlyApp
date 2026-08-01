@@ -37,6 +37,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/clock.svg
   SvgGenImage get clock => const SvgGenImage('assets/icons/clock.svg');
 
+  /// File path: assets/icons/edit-2.svg
+  SvgGenImage get edit2 => const SvgGenImage('assets/icons/edit-2.svg');
+
   /// File path: assets/icons/element-3.svg
   SvgGenImage get element3 => const SvgGenImage('assets/icons/element-3.svg');
 
@@ -66,6 +69,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/sun.svg
   SvgGenImage get sun => const SvgGenImage('assets/icons/sun.svg');
 
+  /// File path: assets/icons/trash.svg
+  SvgGenImage get trash => const SvgGenImage('assets/icons/trash.svg');
+
   /// File path: assets/icons/user.png
   AssetGenImage get userPng => const AssetGenImage('assets/icons/user.png');
 
@@ -80,6 +86,7 @@ class $AssetsIconsGen {
     book,
     calendarAdd,
     clock,
+    edit2,
     element3,
     gooogleicon,
     heart,
@@ -89,6 +96,7 @@ class $AssetsIconsGen {
     moon,
     sms,
     sun,
+    trash,
     userPng,
     userSvg,
   ];

@@ -14,4 +14,7 @@ abstract class AppRouteName {
   static const String Layout = '/layout';
 
   static const String AddEvent = '/AddEvent';
+
+  static const String EventDetails = '/EventDetails';
+  static const String EditEvent = '/EditEvent';
 }
