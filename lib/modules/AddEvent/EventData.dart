@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class EventData {
   static const String collectionname = "EventCollection";
 
@@ -8,6 +10,7 @@ class EventData {
   String descreption;
 
   DateTime? selecteddatetime;
+  TimeOfDay ? selectedtime;
 
   bool isfavourite;
 
@@ -20,6 +23,7 @@ class EventData {
     required this.selecteddatetime,
     this.isfavourite = false,
     this.eventid,
+    this.selectedtime
   });
 
   // Map<String , dynamic>toFirebase()
@@ -54,6 +58,9 @@ class EventData {
       "selecteddatetime": selecteddatetime?.millisecondsSinceEpoch,
       "isfavourite": isfavourite,
       "eventid": eventid,
+      "selectedhour": selectedtime?.hourOfPeriod,
+      "selectedminute": selectedtime?.minute,
+
     };
   }
 
@@ -67,6 +74,8 @@ class EventData {
       ),
       isfavourite: json["isfavourite"] ?? false,
       eventid: json["eventid"],
+        selectedtime: json["selectedhour"] == null ? null : TimeOfDay(
+            hour: json["selectedhour"], minute: json["selectedminute"])
     );
   }
 }

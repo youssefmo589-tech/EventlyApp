@@ -7,6 +7,7 @@ import 'package:provider/provider.dart' show Provider;
 
 import '../../core/gen/assets.gen.dart';
 import '../../core/themes/AppColors.dart';
+import '../../core/utilities/checkonboarding.dart';
 import 'DataPage.dart';
 
 class onBoarding extends StatefulWidget {
@@ -114,9 +115,9 @@ class _onBoardingState extends State<onBoarding> {
                   padding: const EdgeInsets.only(right: 16),
                   child: GestureDetector(
                     onTap: () {
-                      // setState(() {
-                      //   CheckOnBoarding.setSeen() ;
-                      // });
+                      setState(() {
+                        CheckOnBoarding.setSeen();
+                      });
                       Navigator.of(context).pushNamedAndRemoveUntil(
                         AppRouteName.Login,
                         (route) => false,
@@ -189,10 +190,10 @@ class _onBoardingState extends State<onBoarding> {
                     );
                   });
                 } else if (currentindex == 2) {
-                  /////////////login
-                  // setState(() {
-                  //   CheckOnBoarding.setSeen() ;
-                  // });
+                  ///////////login
+                  setState(() {
+                    CheckOnBoarding.setSeen();
+                  });
                   Navigator.of(context).pushNamedAndRemoveUntil(
                     AppRouteName.Login,
                     (route) => false,

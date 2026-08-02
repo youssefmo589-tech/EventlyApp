@@ -16,6 +16,19 @@ class Favourite extends StatefulWidget {
 }
 
 class _FavouriteState extends State<Favourite> {
+  List<EventData> result = [];
+
+  void onsearch(String value) {
+    FirebaseCloudService.getfavourites().listen((snapshot) {
+      List<EventData> eventlist = snapshot.docs
+          .map((item) => item.data())
+          .toList();
+      result = eventlist.where((event) =>
+      event.title.toLowerCase().contains(value.toLowerCase())
+          || event.title.toUpperCase().contains(value.toUpperCase())).toList();
+    });
+  }
+  
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
     final provider = Provider.of<settingProvider>(context);
@@ -33,6 +46,11 @@ class _FavouriteState extends State<Favourite> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: TextFormField(
+                    onChanged: (value) {
+                      setState(() {
+                        onsearch(value);
+                      });
+                    },
                     cursorColor: provider.isDark()
                         ? AppColors.primaryDark
                         : AppColors.primaryLight,
@@ -109,9 +127,12 @@ class _FavouriteState extends State<Favourite> {
                   return ListView.separated(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
-                    itemCount: eventdatalist.length,
+                    itemCount: result.isNotEmpty ? result.length : eventdatalist
+                        .length,
                     itemBuilder: (context, index) {
-                      return EventCardItem(event: eventdatalist[index]);
+                      return result.isNotEmpty ? EventCardItem(
+                          event: result[index]) : EventCardItem(
+                          event: eventdatalist[index]);
                     },
                     separatorBuilder: (context, index) {
                       return SizedBox(height: 16);

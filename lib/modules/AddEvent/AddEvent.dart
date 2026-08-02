@@ -29,6 +29,7 @@ class _AddEventState extends State<AddEvent> {
   final _formkey = GlobalKey<FormState>();
 
   DateTime? _selecteddatetime;
+  TimeOfDay ? _selectedTime;
 
   int _selectedindex = 0;
 
@@ -209,6 +210,8 @@ class _AddEventState extends State<AddEvent> {
                     _selecteEventDate(context);
                   },
                   selecteddatetime: _selecteddatetime,
+                  timebehav: _selectTime,
+                  selectedtime: _selectedTime,
                 ),
               ],
             ),
@@ -222,8 +225,9 @@ class _AddEventState extends State<AddEvent> {
               text: "Add event",
               ontap: () async {
                 if (_formkey.currentState!.validate()) {
-                  if (_selecteddatetime != null) {
+                  if (_selecteddatetime != null && _selectedindex != 0) {
                     final data = EventData(
+                      selectedtime: _selectedTime,
                       title: titlecontroller.text,
                       categoryId:
                           CategoryDataSource.Categories[_selectedindex].id,
@@ -242,6 +246,9 @@ class _AddEventState extends State<AddEvent> {
                       AppSnackBar.error('error in process');
                     }
                   }
+                  else {
+                    AppSnackBar.error("please complete your data");
+                  }
                 }
               },
             ),
@@ -258,5 +265,16 @@ class _AddEventState extends State<AddEvent> {
       lastDate: DateTime.now().add(Duration(days: 365)),
     );
     setState(() {});
+  }
+
+  void _selectTime(BuildContext context) async
+  {
+    _selectedTime = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.now()
+    );
+    setState(() {
+
+    });
   }
 }
