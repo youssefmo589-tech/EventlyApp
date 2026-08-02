@@ -29,6 +29,8 @@ class _EditeventState extends State<EditEvent> {
   final descreptioncontroller = TextEditingController();
 
   final _formkey = GlobalKey<FormState>();
+  TimeOfDay ? _selectedTime;
+
 
   DateTime? _selecteddatetime;
 
@@ -39,6 +41,7 @@ class _EditeventState extends State<EditEvent> {
     titlecontroller.text = widget.event.title;
     descreptioncontroller.text = widget.event.descreption;
     _selecteddatetime = widget.event.selecteddatetime;
+    _selectedTime = widget.event.selectedtime;
   }
 
   Widget build(BuildContext context) {
@@ -220,6 +223,9 @@ class _EditeventState extends State<EditEvent> {
                     _selecteEventDate(context);
                   },
                   selecteddatetime: _selecteddatetime,
+                  timebehav: _selectTime,
+                  selectedtime: _selectedTime,
+
                 ),
               ],
             ),
@@ -232,6 +238,7 @@ class _EditeventState extends State<EditEvent> {
             child: AppButton(
               text: "Update event",
               ontap: () async {
+                widget.event.selectedtime = _selectedTime;
                 widget.event.title = titlecontroller.text;
                 widget.event.descreption = descreptioncontroller.text;
                 widget.event.selecteddatetime = _selecteddatetime;
@@ -268,5 +275,16 @@ class _EditeventState extends State<EditEvent> {
       lastDate: DateTime.now().add(Duration(days: 365)),
     );
     setState(() {});
+  }
+
+  void _selectTime(BuildContext context) async
+  {
+    _selectedTime = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.now()
+    );
+    setState(() {
+
+    });
   }
 }

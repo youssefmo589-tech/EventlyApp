@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/gen/assets.gen.dart';
 import '../../core/themes/AppColors.dart';
+import '../../core/utilities/checkonboarding.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -14,48 +15,45 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   @override
+  // void initState() {
+  //   super.initState();
+  //   Future.delayed(Duration(seconds: 3), () {
+  //     Navigator.pushNamedAndRemoveUntil(
+  //       context,
+  //       AppRouteName.letsstart,
+  //       (route) => false,
+  //     );
+  //   });
+  // }
+
   void initState() {
     super.initState();
-    Future.delayed(Duration(seconds: 3), () {
-      Navigator.pushNamedAndRemoveUntil(
-        context,
-        AppRouteName.Layout,
-        (route) => false,
-      );
-    });
+    checkonboarding();
   }
 
-  // void initState()
-  // {
-  //   super.initState() ;
-  //   checkonboarding() ;
-  //
-  // }
-  // void dispose()
-  // {
-  //   super.dispose() ;
-  // }
-  //
-  // void checkonboarding()async
-  // {
-  //   bool seen  =  await CheckOnBoarding.getSeen() ;
-  //   if(seen)
-  //     {
-  //       Future.delayed(Duration(seconds: 3), (){
-  //
-  //           Navigator.pushNamedAndRemoveUntil(context, AppRouteName.Login, (route)=> false) ;
-  //
-  //       }) ;
-  //
-  //     }
-  //   else
-  //     {
-  //       Future.delayed(Duration(seconds: 3) , (){
-  //
-  //         Navigator.pushNamedAndRemoveUntil(context, AppRouteName.letsstart, (route)=> false) ;
-  //       }) ;
-  //     }
-  // }
+  void dispose() {
+    super.dispose();
+  }
+
+  void checkonboarding() async
+  {
+    bool seen = await CheckOnBoarding.getSeen();
+    if (seen) {
+      Future.delayed(Duration(seconds: 3), () {
+        Navigator.pushNamedAndRemoveUntil(
+            context, AppRouteName.Login, (route) => false);
+      });
+    }
+    else {
+      Future.delayed(Duration(seconds: 3), () {
+        Navigator.pushNamedAndRemoveUntil(
+            context, AppRouteName.letsstart, (route) => false);
+      });
+    }
+  }
+
+
+
 
   @override
   Widget build(BuildContext context) {

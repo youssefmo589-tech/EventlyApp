@@ -602,7 +602,8 @@ class _LoginPageState extends State<LoginPage> {
                     final usercredential = await AuthService()
                         .signinWithGoogle();
                     if (usercredential != null) {
-                      // navigate to home
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, AppRouteName.Layout, (route) => false);
                     }
                   },
 
