@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eventlyapp/modules/AddEvent/EventData.dart';
+import 'package:eventlyapp/modules/users/UserModel.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 
 // class FireBaseCloudService
 // {
@@ -125,7 +128,8 @@ class FirebaseCloudService {
     List<EventData> eventdatalist = [];
     final collectionRef = getcollectionref();
 
-    final data = await collectionRef.get();
+    final data = await collectionRef.where(
+        "userid", isEqualTo: FirebaseAuth.instance.currentUser!.uid).get();
 
     eventdatalist = data.docs.map((e) => e.data()).toList();
     return eventdatalist;
@@ -145,6 +149,8 @@ class FirebaseCloudService {
     String categoryID,
   ) {
     final collectionRef = getcollectionref().where(
+        "userid", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        .where(
       "categoryId",
       isEqualTo: categoryID,
     );
@@ -153,6 +159,64 @@ class FirebaseCloudService {
 
   static Stream<QuerySnapshot<EventData>> getfavourites() {
     final collectionref = getcollectionref();
-    return collectionref.where("isfavourite", isEqualTo: true).snapshots();
+    return collectionref.where(
+        "userid", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        .where("isfavourite", isEqualTo: true).snapshots();
   }
+
+
+//  static CollectionReference<UserModel> getusercollection()
+//  {
+//    return FirebaseFirestore.instance.collection(UserModel.collectionname).withConverter<UserModel>(
+//
+//        fromFirestore: ((snapshot, options) => UserModel.fromfireStore(snapshot.data()!) ),
+//
+//        toFirestore : (data , options) => data.tofirestore()) ;
+//
+//  }
+//
+//  static Future<bool> createUser(UserModel user)async
+//  {
+//    try{
+//      final collectionref = getusercollection() ;
+//
+//      final docRef = await collectionref.doc(user.uid).set(user) ;
+//
+// return Future.value(true) ;
+//
+//    }catch(erroe){
+//
+//      return Future.value(false) ;
+//
+//    }
+//  }
+//
+//  static Future<UserModel?> getusers(String uid)async
+//  {
+//
+//
+//      final collectionref = getusercollection() ;
+//      final user =await collectionref.doc(uid).get() ;
+//      return user.data() ;
+//
+//
+//  }
+//
+//  static Future<bool> updateuser(UserModel user)async
+//  {
+//
+//    try{
+//      final collectionref = getusercollection() ;
+//      final docRef  =collectionref.doc(user.uid) ;
+//      await docRef.update(user.tofirestore()) ;
+//      return Future.value(true) ;
+//
+//    }catch(error){
+//      return Future.value(false) ;
+//    }
+//
+//
+//  }
+
+
 }

@@ -1,6 +1,8 @@
 import 'package:eventlyapp/category%20data%20source/CategoryDataSource.dart';
 import 'package:eventlyapp/core/utiles/firebasecloudservice.dart';
+import 'package:eventlyapp/core/utiles/userfirestore.dart';
 import 'package:eventlyapp/modules/AddEvent/EventDetails.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -8,6 +10,7 @@ import '../../core/gen/assets.gen.dart';
 import '../../core/provider/settingsProvider.dart';
 import '../../core/themes/AppColors.dart';
 import '../AddEvent/EventData.dart';
+import '../users/UserModel.dart';
 import 'EventCardItem.dart';
 import 'TabBarItem.dart';
 
@@ -21,6 +24,22 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int _selectedindex = 0;
+
+  UserModel?user;
+
+  void initState() {
+    super.initState();
+    loaduser();
+  }
+
+  void loaduser() async
+  {
+    final doc = await Userfirestore.getuser(
+        FirebaseAuth.instance.currentUser!.uid);
+    setState(() {
+      user = doc;
+    });
+  }
 
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
@@ -51,7 +70,7 @@ class _HomeState extends State<Home> {
                         ),
                         SizedBox(height: 4),
                         Text(
-                          "Youssef Mohamed",
+                          user?.name ?? "",
                           style: theme.titleMedium?.copyWith(
                             color: provider.isDark()
                                 ? AppColors.white
@@ -67,12 +86,8 @@ class _HomeState extends State<Home> {
                                 onTap: () {
                                   provider.changeThemeMode(ThemeMode.dark);
                                 },
-                                child: Assets.icons.sun.svg(
-                                  colorFilter: ColorFilter.mode(
-                                    AppColors.primaryLight,
-                                    BlendMode.srcIn,
-                                  ),
-                                ),
+                          child: Icon(Icons.wb_sunny_outlined, size: 24,
+                            color: AppColors.primaryLight,),
                               )
                             : GestureDetector(
                                 onTap: () {
