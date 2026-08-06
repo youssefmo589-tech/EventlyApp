@@ -1,6 +1,9 @@
 import 'package:eventlyapp/core/services/snackBarServices.dart';
+import 'package:eventlyapp/core/utiles/userfirestore.dart';
 import 'package:eventlyapp/core/utilities/AuthService.dart';
 import 'package:eventlyapp/core/utilities/Widgets/AppButton.dart';
+import 'package:eventlyapp/modules/users/UserModel.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -232,13 +235,20 @@ class _SignUpState extends State<SignUp> {
                       email.text,
                       pass.text,
                     );
-                    if (success) {
+
+                    final user = UserModel(name: name.text,
+                        uid: FirebaseAuth.instance.currentUser!.uid,
+                        email: email.text);
+                    bool iscreated = await Userfirestore.createUser(user);
+
+
+                    if (success == true && iscreated == true) {
                       EasyLoading.dismiss();
                       AppSnackBar.success("Create Account Success");
                       Navigator.pushNamedAndRemoveUntil(
                         context,
                         AppRouteName.Layout,
-                        (route) => false,
+                            (route) => false,
                       );
                     } else {
                       EasyLoading.dismiss();
@@ -305,7 +315,29 @@ class _SignUpState extends State<SignUp> {
                       width: 2,
                     ),
                   ),
-                  onPressed: () async {},
+                  onPressed: () async {
+                    try {
+                      await AuthService().signinWithGoogle();
+                      final uid = FirebaseAuth.instance.currentUser!.uid;
+                      final user = await Userfirestore.getuser(uid);
+                      if (user == null) {
+                        final newuser = UserModel(name: FirebaseAuth.instance
+                            .currentUser!.displayName ?? "",
+                            uid: uid,
+                            email: FirebaseAuth.instance.currentUser!.email ??
+                                "");
+                        await Userfirestore.createUser(newuser);
+
+                        AppSnackBar.success("Sign in success");
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, AppRouteName.Layout, (route) => false);
+                      }
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, AppRouteName.Layout, (route) => false);
+                    } catch (error) {
+                      AppSnackBar.error("Sign in failed");
+                    }
+                  },
 
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 9),

@@ -11,6 +11,7 @@ class EventData {
 
   DateTime? selecteddatetime;
   TimeOfDay ? selectedtime;
+  String ? userid;
 
   bool isfavourite;
 
@@ -23,7 +24,8 @@ class EventData {
     required this.selecteddatetime,
     this.isfavourite = false,
     this.eventid,
-    this.selectedtime
+    this.selectedtime,
+    this.userid
   });
 
   // Map<String , dynamic>toFirebase()
@@ -60,12 +62,14 @@ class EventData {
       "eventid": eventid,
       "selectedhour": selectedtime?.hourOfPeriod,
       "selectedminute": selectedtime?.minute,
+      "userid": userid
 
     };
   }
 
   factory EventData.fromfirebase(Map<String, dynamic> json) {
     return EventData(
+        userid: json["userid"],
       title: json["title"],
       descreption: json["descreption"],
       categoryId: json["categoryId"],

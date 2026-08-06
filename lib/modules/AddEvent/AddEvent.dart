@@ -1,6 +1,7 @@
 import 'package:eventlyapp/core/services/snackBarServices.dart';
 import 'package:eventlyapp/core/utilities/Widgets/AppButton.dart';
 import 'package:eventlyapp/modules/AddEvent/EventData.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
@@ -225,7 +226,7 @@ class _AddEventState extends State<AddEvent> {
               text: "Add event",
               ontap: () async {
                 if (_formkey.currentState!.validate()) {
-                  if (_selecteddatetime != null && _selectedindex != 0) {
+                  if (_selecteddatetime != null) {
                     final data = EventData(
                       selectedtime: _selectedTime,
                       title: titlecontroller.text,
@@ -233,8 +234,10 @@ class _AddEventState extends State<AddEvent> {
                           CategoryDataSource.Categories[_selectedindex].id,
                       descreption: descreptioncontroller.text,
                       selecteddatetime: _selecteddatetime,
+                      userid: FirebaseAuth.instance.currentUser!.uid,
                     );
                     EasyLoading.show();
+
                     final result = await FirebaseCloudService.createEvent(data);
 
                     if (result == true) {
