@@ -190,7 +190,6 @@ class _onBoardingState extends State<onBoarding> {
                     );
                   });
                 } else if (currentindex == 2) {
-                  ///////////login
                   setState(() {
                     CheckOnBoarding.setSeen();
                   });

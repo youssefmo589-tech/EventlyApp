@@ -39,7 +39,6 @@ class _ChangedelementState extends State<Changedelement> {
           colorBlendMode: BlendMode.srcIn,
         ),
 
-        // widget.page.images ,
         SizedBox(height: 8),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,

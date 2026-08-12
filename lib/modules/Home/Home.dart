@@ -197,59 +197,7 @@ class _HomeState extends State<Home> {
                 }),
               ),
 
-              // FutureBuilder(
-              //
-              //     future: FirebaseCloudService.getevent(),
-              //
-              //     builder: ((context, snapshot) {
-              //       if(snapshot.connectionState == ConnectionState.waiting)
-              //         {
-              //           return CircularProgressIndicator() ;
-              //         }
-              //       if(snapshot.hasError)
-              //         {
-              //           return Text(snapshot.error.toString()) ;
-              //         }
-              //
-              //         List<EventData>eventdatalist = snapshot.data ?? [] ;
-              //
-              //       if(eventdatalist.isEmpty)
-              //         {
-              //           return Text("No EVENTS") ;
-              //         }
-              //       return ListView.separated(
-              //             shrinkWrap: true,
-              //                 physics: NeverScrollableScrollPhysics(),
-              //             itemCount: eventdatalist.length,
-              //                itemBuilder: (context , index){
-              //                 return EventCardItem(
-              //                   event: eventdatalist[index],
-              //
-              //                 ) ;
-              //               }, separatorBuilder: ( context,  index) {
-              //                 return   SizedBox(height: 16) ;
-              //            },
-              //
-              //            );
-              //
-              //
-              //
-              //       }
-              //     )
-              //
-              // )
 
-              //  ListView.separated(
-              //    shrinkWrap: true,
-              //       physics: NeverScrollableScrollPhysics(),
-              //       itemCount: 6,
-              //     itemBuilder: (context , index){
-              //       return EventCardItem() ;
-              //     }, separatorBuilder: ( context,  index) {
-              //       return   SizedBox(height: 16) ;
-              // },
-              //
-              // ),
             ],
           ),
         ),
