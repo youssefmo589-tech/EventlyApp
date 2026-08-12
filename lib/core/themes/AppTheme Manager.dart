@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'AppColors.dart';
 
@@ -11,7 +12,9 @@ abstract class AppThemeManager {
 
     canvasColor: AppColors.black,
 
-    appBarTheme: AppBarThemeData(backgroundColor: Colors.transparent),
+    appBarTheme: AppBarTheme(
+        systemOverlayStyle: SystemUiOverlayStyle.dark,
+        backgroundColor: Colors.transparent),
     scaffoldBackgroundColor: AppColors.backgroundlight,
     textTheme: TextTheme(
       titleLarge: TextStyle(
@@ -38,7 +41,10 @@ abstract class AppThemeManager {
 
     secondaryHeaderColor: AppColors.lightgray,
     primaryColor: AppColors.primaryDark,
-    appBarTheme: AppBarThemeData(backgroundColor: Colors.transparent),
+    appBarTheme: AppBarTheme(
+        systemOverlayStyle: SystemUiOverlayStyle.light,
+
+        backgroundColor: Colors.transparent),
     scaffoldBackgroundColor: AppColors.backgrounddark,
     textTheme: TextTheme(
       titleLarge: TextStyle(
