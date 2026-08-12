@@ -15,16 +15,6 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   @override
-  // void initState() {
-  //   super.initState();
-  //   Future.delayed(Duration(seconds: 3), () {
-  //     Navigator.pushNamedAndRemoveUntil(
-  //       context,
-  //       AppRouteName.letsstart,
-  //       (route) => false,
-  //     );
-  //   });
-  // }
 
   void initState() {
     super.initState();

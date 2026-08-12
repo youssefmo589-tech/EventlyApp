@@ -26,8 +26,6 @@ class TabBarItem extends StatelessWidget {
             ? AppColors.backgrounddark
             : AppColors.white,
         borderRadius: BorderRadius.circular(16),
-
-        // border:  isselected == false ? Border.all(color: provider.isDark() ? AppColors.darkblue :  AppColors.lightgray) :Border.all(color: Colors.transparent)     ,
       ),
       child: Row(
         spacing: 8,

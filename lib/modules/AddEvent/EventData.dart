@@ -28,30 +28,6 @@ class EventData {
     this.userid
   });
 
-  // Map<String , dynamic>toFirebase()
-  // {
-  //   return {
-  //
-  //     "title" : title ,
-  //     "categoryId" : categoryId ,
-  //     "descreption" : descreption ,
-  //     "selecteddatetime" : selecteddatetime?.millisecondsSinceEpoch ,
-  //     "isfavourite" : isfavourite ,
-  //     "eventid" : eventid ,
-  //
-  //   };
-  //
-  // }
-  // factory EventData.fromFirebase(Map<String , dynamic> json)
-  // {
-  //   return EventData(title: json['title'],
-  //       categoryId: json['categoryId'],
-  //       descreption:json["descreption"],
-  //       selecteddatetime: DateTime.fromMillisecondsSinceEpoch(json['selecteddatetime']) ,
-  //     isfavourite: json["isfavourite"] ,
-  //   ) ;
-  // }
-
   Map<String, dynamic> tofirebase() {
     return {
       "title": title,

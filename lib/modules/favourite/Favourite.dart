@@ -141,16 +141,6 @@ class _FavouriteState extends State<Favourite> {
                 },
               ),
 
-              // ListView.separated(
-              //   shrinkWrap: true,
-              //   physics: NeverScrollableScrollPhysics(),
-              //   itemCount: 6,
-              //   itemBuilder: (context , index){
-              //     return EventCardItem(event: null,) ;
-              //   }, separatorBuilder: ( context,  index) {
-              //   return   SizedBox(height: 16) ;
-              // },
-              // ),
             ],
           ),
         ),

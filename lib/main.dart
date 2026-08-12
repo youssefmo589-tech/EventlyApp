@@ -38,8 +38,6 @@ class MyApp extends StatelessWidget {
       darkTheme: AppThemeManager.getdarktheme,
       initialRoute: AppRouteName.initial,
       onGenerateRoute: AppConfig.onGenerateRoute,
-
-      // home:Layout()  ,
     );
   }
 }
