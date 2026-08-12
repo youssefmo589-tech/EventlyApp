@@ -1,13 +1,16 @@
+import 'dart:io';
+
+import 'package:eventlyapp/core/utiles/FirebaseFireStorage.dart';
 import 'package:eventlyapp/core/utiles/userfirestore.dart';
 import 'package:eventlyapp/modules/profile/SettingOptions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/AppRoutes/AppRouteName.dart';
-import '../../core/gen/assets.gen.dart';
 import '../../core/provider/settingsProvider.dart';
 import '../../core/themes/AppColors.dart';
 import '../users/UserModel.dart';
@@ -38,6 +41,25 @@ class _ProfileState extends State<Profile> {
     });
   }
 
+  File ? image;
+
+  ImagePicker picker = ImagePicker();
+
+  Future<void> pick() async
+  {
+    final XFile? pickedimage = await picker.pickImage(
+        source: ImageSource.gallery);
+    if (pickedimage != null) {
+      setState(() {
+        image = File(pickedimage.path);
+      });
+      final imageurl = await FireStorageService.uploadimage(
+          FirebaseAuth.instance.currentUser!.uid, image!);
+      await Userfirestore.updateuserimage(
+          FirebaseAuth.instance.currentUser!.uid, imageurl);
+    }
+  }
+
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
     final provider = Provider.of<settingProvider>(context);
@@ -48,16 +70,29 @@ class _ProfileState extends State<Profile> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             SizedBox(height: 32),
-            Container(
-              width: 116,
-              height: 116,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  image: Assets.images.a7d867a5941f15b20506fb520131ad9fbfee94e7f
-                      .provider(),
-                ),
-              ),
+            GestureDetector(
+                onTap: () {
+                  pick();
+                },
+                child: Container(
+                    width: 116,
+                    height: 116,
+                    decoration: BoxDecoration(
+                      color: image == null ? AppColors.lightgray : Colors
+                          .transparent,
+                      shape: BoxShape.circle,
+                      image: image != null ? DecorationImage(
+                        image: FileImage(File(image!.path)),
+                        fit: BoxFit.contain,
+                      ) : user?.image != null ? DecorationImage(
+                          image: NetworkImage(user!.image!),
+                          fit: BoxFit.contain) : null,
+                    ),
+                    child: image == null && user?.image == null
+                        ? Icon(Icons.person, size: 70, color: AppColors.white,)
+                        : SizedBox()
+                )
+
             ),
             SizedBox(height: 16),
             Center(

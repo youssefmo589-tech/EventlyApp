@@ -50,4 +50,10 @@ class Userfirestore {
       return Future.value(false);
     }
   }
+
+  static Future<void> updateuserimage(String uid, String imageurl) async {
+    print(imageurl);
+    final collectionref = getusercollection();
+    await collectionref.doc(uid).update({'image': imageurl});
+  }
 }
