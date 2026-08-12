@@ -92,7 +92,6 @@ class _EventDetailsState extends State<EventDetails> {
               ),
               child: GestureDetector(
                 onTap: () {
-                  // Navigator.pushNamed(context, AppRouteName.EditEvent) ;
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -240,7 +239,7 @@ class _EventDetailsState extends State<EventDetails> {
                             ),
                           ),
                           Text(
-                            "12:12 PM ",
+                            event.selectedtime!.format(context),
                             style: theme.titleMedium?.copyWith(
                               fontSize: 16,
                               color: provider.isDark()
